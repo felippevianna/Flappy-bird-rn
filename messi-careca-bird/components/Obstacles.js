@@ -1,20 +1,32 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, Image } from 'react-native';
 
-const Obstacles = () => {
-    const obstacleWidth = 60
-    const obstacleHeight = 300
+const Obstacles = ({obstacleLeft, obstacleWidth, obstacleHeight, gap, randomBottom}) => {
     return (
         <>
-            <View style={{
+            <View
+            // source={require('../assets/canoVerde.png')}
+            style={{
                 position: 'absolute',
                 backgroundColor:'red',
                 width: obstacleWidth,
                 height: obstacleHeight,
                 left: obstacleLeft,
-                bottom: 0,
+                // top: 0,
+                bottom: randomBottom + obstacleHeight + gap,
 
-            }}></View>
+            }}/>
+            <View 
+            // source={require('../assets/canoVerde.png')}
+            style={{
+                position: 'absolute',
+                backgroundColor:'red',
+                width: obstacleWidth,
+                height: obstacleHeight,
+                left: obstacleLeft,
+                bottom: randomBottom,
+
+            }}/>
         </>
     )
 }

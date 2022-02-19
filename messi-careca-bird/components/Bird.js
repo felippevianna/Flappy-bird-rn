@@ -1,14 +1,16 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, Image, requireNativeComponent } from 'react-native';
 
 const Bird = ({birdBottom, birdLeft}) => {
     const birdWidth = 50
     const birdHeight = 60
 
     return (
-        <View style={{
+        <Image  
+        source={require('../assets/messi.png')}
+        style={{
             position: 'absolute',
-            backgroundColor: 'green',
+            // backgroundColor: '',
             width: birdWidth,
             height: birdHeight,
             bottom: birdBottom - (birdHeight/2),
