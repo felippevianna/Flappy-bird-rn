@@ -6,140 +6,71 @@ import Obstacles from './components/Obstacles.js';
 export default function App() {
 	const screenWidth = Dimensions.get("screen").width
 	const screenHeight = Dimensions.get("screen").height
-
-	const birdLeft = screenWidth / 2;
-	const [birdBottom, setBirdBottom] = useState(screenHeight / 2)
-	const [obstaclesLeft, setObstaclesLeft] = useState(screenWidth)
-	const [obstaclesLeftTwo, setObstaclesLeftTwo] = useState(screenWidth + screenWidth / 2 + 30)
 	const gravity = 3
-	const [score, setScore] = useState(0)
+	const gap = 250
+	
+	// variaveis do pássaro
+	const [birdBottom, setBirdBottom] = useState(screenHeight / 2)
+	const birdLeft = screenWidth / 2
+	let timer
+	
 
-	const [obstaclesNegHeight, setObstaclesNegHeight] = useState(0)
-	const [obstaclesNegHeightTwo, setObstaclesNegHeightTwo] = useState(0)
+	// variaveis dos obstaculos
+	const maxHeight = screenHeight - gap - 150
+	const [obsHeightOne, setObsHeightOne] = useState(Math.random() * maxHeight)
+	const obsHeightTwo = screenHeight - obsHeightOne - gap
+	const [obsHeightOne2, setObsHeightOne2] = useState(Math.random() * maxHeight)
+	const obsHeightTwo2 = screenHeight - obsHeightOne2 - gap
+	const [obsLeft, setObsLeft] = useState(screenWidth + 60)
+	let timer2
 
-
-	const obstacleWidth = 60
-	const obstacleHeight = 300
-	const gap = 150
-
-	let gameTimerId
-	let obstaclesLeftTimerId
-	let obstaclesLeftTimerIdTwo
-	const [isGameOver, setIsGameOver] = useState(false)  
-	// iniciando  aparte de queda do personagem central
+	// tentando fazer a queda do pássaro
 	useEffect(() => {
-		if (birdBottom > 0) {
-			gameTimerId = setInterval(() => {
+		if (birdBottom > 30) {
+			timer = setInterval(() => {
 				setBirdBottom(birdBottom => birdBottom - gravity)
 
 			}, 30)
 
 			return () => {
-				clearInterval(gameTimerId)
+				clearInterval(timer)
 			}
 		}
 		
 	}, [birdBottom])
 
-	const jump = () => {
-		if(!isGameOver && (birdBottom < screenHeight)) {
-			setBirdBottom(birdBottom => birdBottom + 50)
-			// console.log('jump')
-		}
-	}
-
-	// iniciando a criação dos obstáculos
-	useEffect(() => {
-		if (obstaclesLeft > -obstacleWidth) {
-			obstaclesLeftTimerId = setInterval(() => {
-				setObstaclesLeft(obstaclesLeft => obstaclesLeft - 5)
-			}, 30)
-
-			return () => {
-				clearInterval(obstaclesLeftTimerId)
-			}
-		} else {
-			setObstaclesLeft(screenWidth)
-			setObstaclesNegHeight( - Math.random() * 10)
-			// setScore(score => score +1)
-		}
-		
-	}, [obstaclesLeft])
-
-	// iniciando o segundo obstáculo
-	useEffect(() => {
-		if (obstaclesLeftTwo > -obstacleWidth) {
-			obstaclesLeftTimerIdTwo = setInterval(() => {
-				setObstaclesLeftTwo(obstaclesLeftTwo => obstaclesLeftTwo - 5)
-			}, 30)
-
-			return () => {
-				clearInterval(obstaclesLeftTimerIdTwo)
-			}
-		} else {
-			setObstaclesLeftTwo(screenWidth)
-			setObstaclesNegHeightTwo( - Math.random() * 10)
-			// setScore(score => score + 1)
-		}
-
-	}, [obstaclesLeftTwo])
-
-	// checando colisões
-
+	// fazendo os obstaculos se moverem
 	useEffect(()=> {
-		if (
-			((birdBottom < (obstaclesNegHeight + obstacleHeight + 30) || 
-			birdBottom > (obstaclesNegHeight + obstacleHeight - 30 + gap)) && 
-			(obstaclesLeft > screenWidth / 2 - 30 && obstaclesLeft < screenWidth / 2 + 30) 
-			)
-			||
-			((birdBottom < (obstaclesNegHeightTwo + obstacleHeight + 30) || 
-			birdBottom > (obstaclesNegHeightTwo + obstacleHeight - 30 + gap)) && 
-			(obstaclesLeftTwo > screenWidth / 2 - 30 && obstaclesLeftTwo < screenWidth / 2 + 30)
-			) 
-		)
-		{
-			// console.log('gameover')
-			gameOver()
-		}
-	})
-	console.log(score)
-	
-	const gameOver = () => {
-		clearInterval(gameTimerId)
-		clearInterval(obstaclesLeftTimerId)
-		clearInterval(obstaclesLeftTimerIdTwo)
-		setIsGameOver(true)
-	}
+		if (obsLeft > - 80) {
+			timer2 = setInterval(() => {
+				setObsLeft(obsLeft => obsLeft - 5)
+			}, 30)
 
+			return () => {
+				clearInterval(timer2)
+			}
+		} 
+	}, [obsLeft])
 
 
 	return (
-		<TouchableWithoutFeedback onPress={jump}>
-			<View style={styles.container}>
-				<Text>Pontuação : {score}</Text>
-
-				<Bird
-					birdBottom={birdBottom}
-					birdLeft={birdLeft}
-				/>
-				<Obstacles
-					obstacleLeft={obstaclesLeft}
-					obstacleWidth={obstacleWidth}
-					obstacleHeight={obstacleHeight}
-					randomBottom={obstaclesNegHeight}
-					gap={gap}
-				/>
-				<Obstacles
-					obstacleLeft={obstaclesLeftTwo}
-					obstacleWidth={obstacleWidth}
-					obstacleHeight={obstacleHeight}
-					randomBottom={obstaclesNegHeightTwo}
-					gap={gap}
-				/>
-			</View>
-
-		</TouchableWithoutFeedback>
+		<View style={styles.container}>
+			<Text style={styles.textScore}>Pontuação : 0</Text>
+			<Bird
+				birdBottom={birdBottom}
+				birdLeft={birdLeft}
+			/>
+			<Obstacles 
+				obstacleHeight={obsHeightOne}
+				obstacleHeightTwo={obsHeightTwo}
+				obstacleLeft={obsLeft}
+			/>
+			<Obstacles 
+				obstacleHeight={obsHeightOne2}
+				obstacleHeightTwo={obsHeightTwo2}
+				obstacleLeft={obsLeft + screenWidth/2}
+			/>
+		</View>
 	)
 }
 
@@ -147,8 +78,15 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		color: 'green',
-		backgroundColor: 'grey',
+		backgroundColor: 'tan',
 		alignItems: 'center',
 		justifyContent: 'center',
 	},
+
+	textScore: {
+		zIndex: 10,
+		position: 'absolute',
+		top: 15,
+		fontSize: 35,
+	}
 });

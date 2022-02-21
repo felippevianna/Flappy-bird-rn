@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Image } from 'react-native';
 
-const Obstacles = ({obstacleLeft, obstacleWidth, obstacleHeight, gap, randomBottom}) => {
+const Obstacles = ({obstacleLeft, obstacleWidth, obstacleHeight, obstacleHeightTwo, gap, randomBottom}) => {
     return (
         <>
             <View
@@ -9,11 +9,11 @@ const Obstacles = ({obstacleLeft, obstacleWidth, obstacleHeight, gap, randomBott
             style={{
                 position: 'absolute',
                 backgroundColor:'red',
-                width: obstacleWidth,
+                width: 80,
                 height: obstacleHeight,
                 left: obstacleLeft,
-                // top: 0,
-                bottom: randomBottom + obstacleHeight + gap,
+                top: 0,
+                // bottom: randomBottom + obstacleHeight + gap,
 
             }}/>
             <View 
@@ -21,10 +21,11 @@ const Obstacles = ({obstacleLeft, obstacleWidth, obstacleHeight, gap, randomBott
             style={{
                 position: 'absolute',
                 backgroundColor:'red',
-                width: obstacleWidth,
-                height: obstacleHeight,
+                width: 80,
+                height: obstacleHeightTwo,
                 left: obstacleLeft,
-                bottom: randomBottom,
+                bottom: 0,
+                // bottom: randomBottom,
 
             }}/>
         </>
