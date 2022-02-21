@@ -38,12 +38,13 @@ export default function App() {
 				clearInterval(gameTimerId)
 			}
 		}
+		
 	}, [birdBottom])
 
 	const jump = () => {
 		if(!isGameOver && (birdBottom < screenHeight)) {
-			setBirdBottom(birdBottom => birdBottom +50)
-			console.log('jump')
+			setBirdBottom(birdBottom => birdBottom + 50)
+			// console.log('jump')
 		}
 	}
 
@@ -59,10 +60,10 @@ export default function App() {
 			}
 		} else {
 			setObstaclesLeft(screenWidth)
-			setObstaclesNegHeight( - Math.random() * 100)
-			setScore(score => score + 1)
+			setObstaclesNegHeight( - Math.random() * 10)
+			// setScore(score => score +1)
 		}
-
+		
 	}, [obstaclesLeft])
 
 	// iniciando o segundo obstáculo
@@ -77,8 +78,8 @@ export default function App() {
 			}
 		} else {
 			setObstaclesLeftTwo(screenWidth)
-			setObstaclesNegHeightTwo( - Math.random() * 100)
-			setScore(score => score + 1)
+			setObstaclesNegHeightTwo( - Math.random() * 10)
+			// setScore(score => score + 1)
 		}
 
 	}, [obstaclesLeftTwo])
@@ -98,10 +99,11 @@ export default function App() {
 			) 
 		)
 		{
-			console.log('gameover')
+			// console.log('gameover')
 			gameOver()
 		}
 	})
+	console.log(score)
 	
 	const gameOver = () => {
 		clearInterval(gameTimerId)
